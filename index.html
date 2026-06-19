@@ -56,7 +56,10 @@
     function advanceSnake() {
 
         // take current head and move it forward by dx
-        const head = { x: snake[0].x + dx, y: snake[0].y };
+        const head = {
+            x: snake[0].x + dx, 
+            y: snake[0].y + dy
+        };
 
         // put new head at the start of the array
         snake.unshift(head);
@@ -73,6 +76,10 @@
         ctx.strokeStyle = "black";
         ctx.strokeRect(0, 0, 300, 300);
 
+        dx = 10;
+
+        dy = -10;
+
         // update game
         advanceSnake();
 
@@ -85,7 +92,7 @@
 
     // gameLoop();
 
-    drawSnake();
+    // drawSnake();
 
 
 
