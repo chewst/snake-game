@@ -33,6 +33,12 @@
     // creating snake
     let snake = [  {x: 150, y: 150},  {x: 140, y: 150},  {x: 130, y: 150},  {x: 120, y: 150},  {x: 110, y: 150},];
 
+    // Horizontal velocity
+    let dx = 10;
+
+
+
+    // ------ Function ------
 
     function drawSnakePart(snakePart) {  // it will just draws one square
         ctx.fillStyle = 'lightgreen'; 
@@ -45,8 +51,43 @@
     function drawSnake() {
         snake.forEach(drawSnakePart);
     }
-    
+
+    // update the snake
+    function advanceSnake() {
+
+        // take current head and move it forward by dx
+        const head = { x: snake[0].x + dx, y: snake[0].y };
+
+        // put new head at the start of the array
+        snake.unshift(head);
+
+        // remove the last block
+        snake.pop();
+    }
+
+    function gameLoop() {
+        // clear canvas
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, 300, 300);
+
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(0, 0, 300, 300);
+
+        // update game
+        advanceSnake();
+
+        // draw game
+        drawSnake();
+
+        // repeat
+        setTimeout(gameLoop, 200);
+    }
+
+    // gameLoop();
+
     drawSnake();
+
+
 
 
 </script>
