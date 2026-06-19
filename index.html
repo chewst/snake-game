@@ -22,12 +22,12 @@
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");  // ctx = context
 
-    // draw background (white box with border)
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, 300, 300);  // fills a rectangle
+    // // draw background (white box with border)
+    // ctx.fillStyle = "white";
+    // ctx.fillRect(0, 0, 300, 300);  // fills a rectangle
 
-    ctx.strokeStyle = "black";
-    ctx.strokeRect(0, 0, 300, 300);  // draws outline 
+    // ctx.strokeStyle = "black";
+    // ctx.strokeRect(0, 0, 300, 300);  // draws outline 
 
 
     // creating snake
@@ -68,6 +68,15 @@
         snake.pop();
     }
 
+    // wipes everything on the screen for updating game state
+    function clearCanvas() {
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
+
+        ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+        ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
+    }
+
     function gameLoop() {
         // clear canvas
         ctx.fillStyle = "white";
@@ -92,7 +101,9 @@
 
     // gameLoop();
 
-    // drawSnake();
+    clearCanvas();
+    drawSnake();
+    advanceSnake();
 
 
 
