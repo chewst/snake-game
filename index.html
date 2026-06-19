@@ -5,7 +5,21 @@
 </head>
 
 <body>
-Welcome to Snake!
+    
+<canvas id="gameCanvas" width="300" height="300"></canvas>
+
+<script>
+const gameCanvas = document.getElementById("gameCanvas");
+const ctx = gameCanvas.getContext("2d");  // ctx = context
+
+// draw background (white box with border)
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, 300, 300);  // fills a rectangle
+
+ctx.strokeStyle = "black";
+ctx.strokeRect(0, 0, 300, 300);  // draws outline 
+</script>
+
 </body>
 
 </html>
