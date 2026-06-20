@@ -35,6 +35,7 @@
 
     // Horizontal velocity
     let dx = 10;
+    let dy = 0;
 
 
 
@@ -102,8 +103,16 @@
     // gameLoop();
 
     clearCanvas();
-    drawSnake();
-    advanceSnake();
+
+    drawSnake(); 
+
+    // Wait 100ms, then run this code
+    setTimeout(function () {  
+        clearCanvas();
+        advanceSnake();
+        drawSnake();
+    }, 100);
+
 
 
 
