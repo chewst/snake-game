@@ -100,18 +100,39 @@
         setTimeout(gameLoop, 200);
     }
 
+      function stepOne() {
+        setTimeout(() => {
+            clearCanvas();
+            advanceSnake();
+            drawSnake();
+            stepTwo(); // call next step after finishing
+        }, 100);
+    }
+
+    function stepTwo() {
+        setTimeout(() => {
+            clearCanvas();
+            advanceSnake();
+            drawSnake();
+            stepThree(); // go to next step
+        }, 100);
+    }
+
+    function stepThree() {
+        setTimeout(() => {
+            clearCanvas();
+            advanceSnake();
+            drawSnake();
+        }, 100);
+    }
+
     // gameLoop();
 
     clearCanvas();
 
     drawSnake(); 
 
-    // Wait 100ms, then run this code
-    setTimeout(function () {  
-        clearCanvas();
-        advanceSnake();
-        drawSnake();
-    }, 100);
+    stepOne();
 
 
 
