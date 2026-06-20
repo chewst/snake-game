@@ -105,6 +105,28 @@
         snake.pop();
     }
 
+    // create random number in 10 px for coordinates of food
+    function randomTen(min, max) {
+        return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+    }
+
+    function createFood() { 
+
+        // make a random position that is on grid
+        foodX = randomTen(0, gameCanvas.width - 10);  
+        foodY = randomTen(0, gameCanvas.height - 10);
+
+        // check if food is inside snake
+        snake.forEach(function isFoodOnSnake(part) {
+            const foodIsOnSnake = part.x == foodX && part.y == foodY;
+
+            // if collision, regenerate the food
+            if (foodIsOnSnake)
+            createFood();
+        });
+
+    }
+
     // wipes everything on the screen for updating game state
     function clearCanvas() {
         ctx.fillStyle = "white";
