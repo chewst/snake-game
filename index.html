@@ -127,6 +127,13 @@
 
     }
 
+    function drawFood() {
+      ctx.fillStyle = 'red';
+      ctx.strokestyle = 'darkred';
+      ctx.fillRect(foodX, foodY, 10, 10);
+      ctx.strokeRect(foodX, foodY, 10, 10);
+    }
+
     // wipes everything on the screen for updating game state
     function clearCanvas() {
         ctx.fillStyle = "white";
@@ -164,6 +171,7 @@
     function main() {
         setTimeout( () => {
             clearCanvas();
+            drawFood();
             advanceSnake();
             drawSnake();
             main(); // repeat forever
