@@ -22,13 +22,6 @@
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");  // ctx = context
 
-    // // draw background (white box with border)
-    // ctx.fillStyle = "white";
-    // ctx.fillRect(0, 0, 300, 300);  // fills a rectangle
-
-    // ctx.strokeStyle = "black";
-    // ctx.strokeRect(0, 0, 300, 300);  // draws outline 
-
 
     // creating snake
     let snake = [  {x: 150, y: 150},  {x: 140, y: 150},  {x: 130, y: 150},  {x: 120, y: 150},  {x: 110, y: 150},];
@@ -101,8 +94,19 @@
         // put new head at the start of the array
         snake.unshift(head);
 
-        // remove the last block
-        snake.pop();
+        // flag to check if snake head is touching food
+        const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
+        
+        if (didEatFood) {
+
+            // Generate new food location
+            createFood();
+
+        } else {
+
+            // remove the last block
+            snake.pop();
+        }
     }
 
     // create random number in 10 px for coordinates of food
@@ -116,7 +120,7 @@
         foodX = randomTen(0, gameCanvas.width - 10);  
         foodY = randomTen(0, gameCanvas.height - 10);
 
-        // check if food is inside snake
+        // check if food is inside snake , preventing food creating on snake
         snake.forEach(function isFoodOnSnake(part) {
             const foodIsOnSnake = part.x == foodX && part.y == foodY;
 
@@ -179,7 +183,7 @@
         }, 100);
     }
 
-
+    createFood();
     main();
 
     document.addEventListener("keydown", changeDirection);
