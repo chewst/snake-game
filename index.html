@@ -39,6 +39,16 @@
             // Return a two dimensional drawing context
             const ctx = gameCanvas.getContext("2d");  // ctx = context, drawing tool 
 
+            // --------- Constants ---------
+
+            const GAME_SPEED = 100;
+            const CANVAS_BORDER_COLOUR = 'black';
+            const CANVAS_BACKGROUND_COLOUR = "white";
+            const SNAKE_COLOUR = 'lightgreen';
+            const SNAKE_BORDER_COLOUR = 'darkgreen';
+            const FOOD_COLOUR = 'red';
+            const FOOD_BORDER_COLOUR = 'darkred';
+
 
             // --------- Variables ---------
 
@@ -68,8 +78,8 @@
              * @param { object } snakePart - The coordinates where the part should be drawn
              */
             function drawSnakePart(snakePart) {  // it will just draws one square
-                ctx.fillStyle = 'lightgreen'; 
-                ctx.strokeStyle = 'darkgreen';
+                ctx.fillStyle = SNAKE_COLOUR; 
+                ctx.strokeStyle = SNAKE_BORDER_COLOUR;
                 ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
                 ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
             }
@@ -209,8 +219,8 @@
              * Draw the food on the canvas
              */
             function drawFood() {
-                ctx.fillStyle = 'red';
-                ctx.strokeStyle = 'darkred';
+                ctx.fillStyle = FOOD_COLOUR;
+                ctx.strokeStyle = FOOD_BORDER_COLOUR;
                 ctx.fillRect(foodX, foodY, 10, 10);
                 ctx.strokeRect(foodX, foodY, 10, 10);
             }
@@ -248,8 +258,8 @@
              * Wipes everything on the screen for updating game state
              */
             function clearCanvas() {
-                ctx.fillStyle = "white";
-                ctx.strokeStyle = "black";
+                ctx.fillStyle = CANVAS_BACKGROUND_COLOUR;
+                ctx.strokeStyle = CANVAS_BORDER_COLOUR;
 
                 ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
                 ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
@@ -275,7 +285,7 @@
                     drawSnake();
                     main(); // repeat forever
                 
-                }, 100);
+                }, GAME_SPEED);
             }
 
             // Start game
