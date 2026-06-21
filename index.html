@@ -38,6 +38,9 @@
             // set score
             let score = 0;
 
+            // lock system to prevent multiple direction changes before the snake moves (within 100ms)
+            let changingDirection = false;
+
 
             // ------ Function ------
 
@@ -66,6 +69,9 @@
                 const goingDown = dy === 10;  
                 const goingRight = dx === 10;  
                 const goingLeft = dx === -10;
+
+                if (changingDirection) return;   // block extra inputs
+                changingDirection = true;  // lock direction change
 
                 if (keyPressed === LEFT_KEY && !goingRight) {
                     dx = -10;    
@@ -213,6 +219,9 @@
                 if (didGameEnd()) return;
 
                 setTimeout( () => {
+
+                    changingDirection = false; // unlock
+                    
                     clearCanvas();
                     drawFood();
                     advanceSnake();
