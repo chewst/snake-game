@@ -106,6 +106,12 @@
                 
                 if (didEatFood) {
 
+                    // Increase score
+                    score += 10;
+                    // Display score on screen
+                    document.getElementById('score').innerHTML = score;
+
+
                     // Generate new food location
                     createFood();
 
