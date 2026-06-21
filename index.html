@@ -32,9 +32,15 @@
         <canvas id="gameCanvas" width="300" height="300"></canvas>
 
         <script>
+
+            // Get the canvas element
             const gameCanvas = document.getElementById("gameCanvas");  // blank drawing board
+
+            // Return a two dimensional drawing context
             const ctx = gameCanvas.getContext("2d");  // ctx = context, drawing tool 
 
+
+            // --------- Variables ---------
 
             // creating snake
             let snake = [  {x: 150, y: 150},  {x: 140, y: 150},  {x: 130, y: 150},  {x: 120, y: 150},  {x: 110, y: 150},];
@@ -49,9 +55,18 @@
             // lock system to prevent multiple direction changes before the snake moves (within 100ms)
             let changingDirection = false;
 
+            // Food x-coordinate
+            let foodX;
+            // Food y-coordinate
+            let foodY;
 
-            // ------ Function ------
 
+            // --------- Functions ---------
+
+            /**
+             * Draws a part of the snake on the canvas
+             * @param { object } snakePart - The coordinates where the part should be drawn
+             */
             function drawSnakePart(snakePart) {  // it will just draws one square
                 ctx.fillStyle = 'lightgreen'; 
                 ctx.strokeStyle = 'darkgreen';
@@ -59,11 +74,22 @@
                 ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
             }
 
-            // loops through all parts and draws the whole snake
+            /**
+             * Loops through all of the snake parts and Draws the snake on the canvas
+             */
             function drawSnake() {
                 snake.forEach(drawSnakePart);
             }
 
+
+            /**
+             * Changes the vertical and horizontal velocity of the snake according to the
+             * key that was pressed.
+             * The direction cannot be switched to the opposite direction, to prevent the snake
+             * from reversing
+             * For example if the the direction is 'right' it cannot become 'left'
+             * @param { object } event - The keydown event
+             */
             function changeDirection (event) {
                 const LEFT_KEY = 37;  
                 const RIGHT_KEY = 39;  
@@ -78,6 +104,13 @@
                 const goingRight = dx === 10;  
                 const goingLeft = dx === -10;
 
+
+                /**
+                 * Prevent the snake from reversing
+                 * Example scenario:
+                 * Snake is moving to the right. User presses down and immediately left
+                 * and the snake immediately changes direction without taking a step down first
+                 */
                 if (changingDirection) return;   // block extra inputs
                 changingDirection = true;  // lock direction change
 
@@ -103,7 +136,11 @@
             }
 
 
-            // update the snake
+            /**
+             * Advances the snake by changing the x-coordinates of its parts
+             * according to the horizontal velocity and the y-coordinates of its parts
+             * according to the vertical veolocity
+             */
             function advanceSnake() {
 
                 // take current head and move it forward by dx
@@ -136,11 +173,21 @@
                 }
             }
 
-            // create random number in 10 px for coordinates of food
+
+            /**
+             * Generates a random number that is a multiple of 10 (so that it is in 10 px) given a minumum
+             * and a maximum number for coordinates of food
+             * @param { number } min - The minimum number the random number can be
+             * @param { number } max - The maximum number the random number can be
+             */
             function randomTen(min, max) {
                 return Math.round((Math.random() * (max-min) + min) / 10) * 10;
             }
 
+
+             /**
+             * Creates random set of coordinates for the snake food.
+             */
             function createFood() { 
 
                 // make a random position that is on grid
@@ -158,6 +205,9 @@
 
             }
 
+            /**
+             * Draw the food on the canvas
+             */
             function drawFood() {
                 ctx.fillStyle = 'red';
                 ctx.strokeStyle = 'darkred';
@@ -165,6 +215,11 @@
                 ctx.strokeRect(foodX, foodY, 10, 10);
             }
 
+
+            /**
+             * Returns true if the head of the snake touched another part of the game
+             * or any of the walls
+             */
             function didGameEnd() {
 
                 // i start at 4 as snake begins with index 0,1,2,3,4 and it cant collide with itself for
@@ -186,7 +241,12 @@
                 return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
             }
 
-            // wipes everything on the screen for updating game state
+            /**
+             * Change the background colour of the canvas to CANVAS_BACKGROUND_COLOUR and
+             * draw a border around it
+             * 
+             * Wipes everything on the screen for updating game state
+             */
             function clearCanvas() {
                 ctx.fillStyle = "white";
                 ctx.strokeStyle = "black";
@@ -195,32 +255,11 @@
                 ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
             }
 
-            // testing
-            function gameLoop() {
-                // clear canvas
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, 300, 300);
-
-                ctx.strokeStyle = "black";
-                ctx.strokeRect(0, 0, 300, 300);
-
-                dx = 10;
-
-                dy = -10;
-
-                // update game
-                advanceSnake();
-
-                // draw game
-                drawSnake();
-
-                // repeat
-                setTimeout(gameLoop, 200);
-            }
-
-            // gameLoop();
-
             
+            /**
+             * Main function of the game
+             * called repeatedly to advance the game
+             */
             function main() {
 
                 // if snake intercept itself or touch the wall, game end
@@ -239,9 +278,12 @@
                 }, 100);
             }
 
-            createFood();
+            // Start game
             main();
+            // Create the first food location
+            createFood();
 
+            // Call changeDirection whenever a key is pressed
             document.addEventListener("keydown", changeDirection);
 
 
