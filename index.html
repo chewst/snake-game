@@ -16,8 +16,15 @@
 
             #score {
                 text-align: center;
-                font-size: 140px;
+                font-size: 120px;
                 font-family: 'Antic Slab', serif;
+            }
+
+            #gameOverMsg {
+                text-align: center;
+                font-size: 60px;
+                font-family: 'Antic Slab', serif;
+                color: darkred;
             }
         </style>
 
@@ -27,6 +34,8 @@
 
         <!-- Score display -->
         <div id="score">0</div>
+
+        <div id="gameOverMsg" style="display:none;">Game Over!!</div>
 
         <!-- Game canvas -->
         <canvas id="gameCanvas" width="300" height="300"></canvas>
@@ -252,6 +261,29 @@
             }
 
             /**
+             * Draws a "Game Over!!" message in the centre of the canvas
+             * Called once, when didGameEnd() returns true
+             */
+            // draw inside the canvas
+            function drawGameOver() {
+                ctx.fillStyle = 'black';
+                ctx.font = '20px "Antic Slab", serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Game Over!!', gameCanvas.width / 2, gameCanvas.height / 2);
+            }
+
+            // add on and reuse the score <div>
+            function drawGameOver() {
+                document.getElementById('score').innerHTML = 'Game Over!! Score: ' + score;
+            }
+
+            // hidden div toggled with CSS
+            function drawGameOver() {
+                document.getElementById('gameOverMsg').style.display = 'block';
+            }
+
+            /**
              * Change the background colour of the canvas to CANVAS_BACKGROUND_COLOUR and
              * draw a border around it
              * 
@@ -273,7 +305,10 @@
             function main() {
 
                 // if snake intercept itself or touch the wall, game end
-                if (didGameEnd()) return;
+                if (didGameEnd()) {
+                    drawGameOver();
+                    return;
+                }
 
                 setTimeout( () => {
 
