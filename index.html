@@ -35,6 +35,7 @@
         <!-- Score display -->
         <div id="score">0</div>
 
+        <!-- A hidden Game Over display -->
         <div id="gameOverMsg" style="display:none;">Game Over!!</div>
 
         <!-- Game canvas -->
@@ -154,6 +155,18 @@
                 }
             }
 
+            /**
+             * Calculates where the snake's head will be on the next step,
+             * without actually moving the snake. Used both to advance the
+             * snake and to check for collisions before anything is drawn.
+             */
+            function getNextHead() {
+                return {
+                    x: snake[0].x + dx,
+                    y: snake[0].y + dy
+                };
+            }
+
 
             /**
              * Advances the snake by changing the x-coordinates of its parts
@@ -162,14 +175,8 @@
              */
             function advanceSnake() {
 
-                // take current head and move it forward by dx
-                const head = {
-                    x: snake[0].x + dx, 
-                    y: snake[0].y + dy
-                };
-
                 // put new head at the start of the array
-                snake.unshift(head);
+                snake.unshift(getNextHead());
 
                 // flag to check if snake head is touching food
                 const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
@@ -241,20 +248,22 @@
              */
             function didGameEnd() {
 
+                const nextHead = getNextHead();
+
                 // i start at 4 as snake begins with index 0,1,2,3,4 and it cant collide with itself for
                 // index 1,2,3 and there is no point to compare with the head again
                 for (let i = 4; i < snake.length; i++) {
         
-                    const didCollide = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
+                    const didCollide = snake[i].x === nextHead.x && snake[i].y === nextHead.y;
 
                     if (didCollide) return true;
                 }
 
                 // check for wall collision
-                const hitLeftWall = snake[0].x <0;
-                const hitRightWall = snake[0].x > gameCanvas.width - 10;
-                const hitTopWall = snake[0].y <0
-                const hitBottomWall = snake[0].y > gameCanvas.height - 10;
+                const hitLeftWall = nextHead.x <0;
+                const hitRightWall = nextHead.x > gameCanvas.width - 10;
+                const hitTopWall = nextHead.y <0
+                const hitBottomWall = nextHead.y > gameCanvas.height - 10;
 
                 // if any of this is true, game ends
                 return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
@@ -264,21 +273,6 @@
              * Draws a "Game Over!!" message in the centre of the canvas
              * Called once, when didGameEnd() returns true
              */
-            // draw inside the canvas
-            function drawGameOver() {
-                ctx.fillStyle = 'black';
-                ctx.font = '20px "Antic Slab", serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('Game Over!!', gameCanvas.width / 2, gameCanvas.height / 2);
-            }
-
-            // add on and reuse the score <div>
-            function drawGameOver() {
-                document.getElementById('score').innerHTML = 'Game Over!! Score: ' + score;
-            }
-
-            // hidden div toggled with CSS
             function drawGameOver() {
                 document.getElementById('gameOverMsg').style.display = 'block';
             }
